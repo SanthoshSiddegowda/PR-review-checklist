@@ -3,162 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PR Review Guidelines</title>
+    <title>PHP Code Review Guidelines</title>
     <style>
-        html {
-            scroll-padding-top: 80px; /* This ensures anchors account for fixed header */
-            scroll-behavior: smooth; /* Smooth scrolling to anchors */
+        :root {
+            --primary-color: #4F5B93;
+            --secondary-color: #8892BF;
+            --border-color: #E4E4E4;
+            --code-bg: #272822;
+            --code-color: #F8F8F2;
         }
-        
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-        
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
         }
 
-        .review-section {
-            margin-bottom: 30px;
+        nav {
+            background: var(--secondary-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 10px 0;
         }
 
-        .checklist-item {
-            margin: 10px 0;
-            padding-left: 20px;
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary-color);
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
         }
 
         .code-example {
-            background-color: #f5f5f5;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-family: monospace;
+            background: var(--code-bg);
+            color: var(--code-color);
+            padding: 1.5rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            position: relative;
         }
 
-        .important-note {
-            background-color: #fff3cd;
+        .code-example pre {
+            margin: 0;
+            font-family: 'Consolas', monospace;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--secondary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 0 4px 0 4px;
+            font-size: 0.8em;
+        }
+
+        .best-practice {
+            border-left: 4px solid #28A745;
+            padding-left: 15px;
+        }
+
+        .bad-practice {
+            border-left: 4px solid #DC3545;
+            padding-left: 15px;
+        }
+
+        .note {
+            background: #fff3cd;
             border-left: 4px solid #ffc107;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
         }
 
-        h1, h2, h3 {
-            color: #333;
-        }
-
-        .checkbox-list {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .checkbox-list li {
-            margin: 5px 0;
-        }
-
-        .checkbox-list input[type="checkbox"] {
-            margin-right: 10px;
+        .reviewer-info {
+            background: #e9ecef;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
         }
 
         .reviewer-tag {
-            background-color: #e9ecef;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.85em;
+            background: var(--secondary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
             margin-left: 8px;
-            color: #666;
         }
 
-        /* Add styles for better anchor navigation */
-        :target {
-            display: block;
-            position: relative;
-            padding-top: 80px;
-            margin-top: -80px;
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1>PHP Code Review Guidelines</h1>
+            <p>Comprehensive guide for conducting effective PHP code reviews</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#code-quality">Code Quality</a></li>
+                <li><a href="#database">Database</a></li>
+                <li><a href="#security">Security</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#testing">Testing</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <div class="container">
-        <h1>Pull Request (PR) Review Guidelines</h1>
+        <section id="code-quality" class="section">
+            <h2>Code Quality Standards</h2>
+            <p>Essential guidelines for maintaining high-quality PHP code.</p>
 
-        <section id="review-section" class="review-section">
-            <h2>PR Review Checklist</h2>
-            
-            <div class="important-note">
-                <p>When approving a PR, add the following formatted comment:</p>
-                <pre>***PR Review Completed***
-Reviewed items:
-- [List specific points reviewed]
-Reviewer Role: [Team Lead/Architecture]</pre>
+            <h3>Type Hinting and Return Types</h3>
+            <div class="best-practice">
+                <div class="code-example">
+                    <span class="code-label">Good Practice</span>
+                    <pre>
+public function getUserData(int $userId): ?User
+{
+    return $this->userRepository->findById($userId);
+}</pre>
+                </div>
+                <p>Always use type hints and return types for better code clarity and maintainability.</p>
             </div>
 
-            <div class="checklist-category">
-                <h4>1. Code Quality & Standards</h4>
-                <ul class="checkbox-list">
-                    <li><input type="checkbox"> Code follows PSR standards <span class="reviewer-tag">Team Lead</span></li>
-                    <li><input type="checkbox"> Proper naming conventions used <span class="reviewer-tag">Team Lead</span></li>
-                    <li><input type="checkbox"> Maximum line/function length maintained (120 chars/lines) <span class="reviewer-tag">Team Lead</span></li>
-                    <li><input type="checkbox"> Appropriate comments and documentation present <span class="reviewer-tag">Both</span></li>
-                    <li><input type="checkbox"> No hardcoded values - constants used appropriately <span class="reviewer-tag">Team Lead</span></li>
-                </ul>
+            <div class="bad-practice">
+                <div class="code-example">
+                    <span class="code-label">Avoid</span>
+                    <pre>
+function get_user_data($id) {
+    return $this->user_repository->find_by_id($id);
+}</pre>
+                </div>
+                <p>Avoid omitting type hints and return types as it makes code harder to understand and maintain.</p>
             </div>
 
-            <div class="checklist-category">
-                <h4>2. Architecture & Design</h4>
-                <ul class="checkbox-list">
-                    <li><input type="checkbox"> Follows architectural patterns <span class="reviewer-tag">Architecture</span></li>
-                    <li><input type="checkbox"> Proper separation of concerns <span class="reviewer-tag">Architecture</span></li>
-                    <li><input type="checkbox"> Dependency injection used appropriately <span class="reviewer-tag">Architecture</span></li>
-                    <li><input type="checkbox"> Service boundaries respected <span class="reviewer-tag">Architecture</span></li>
-                </ul>
-            </div>
-
-            <div class="checklist-category">
-                <h4>3. Database & Performance</h4>
-                <ul class="checkbox-list">
-                    <li><input type="checkbox"> Proper transaction handling for multi-table operations <span class="reviewer-tag">Both</span></li>
-                    <li><input type="checkbox"> Indexes optimized and EXPLAIN results reviewed <span class="reviewer-tag">Architecture</span></li>
-                    <li><input type="checkbox"> No queries in loops without pagination <span class="reviewer-tag">Both</span></li>
-                    <li><input type="checkbox"> Foreign key constraints proper <span class="reviewer-tag">Architecture</span></li>
-                    <li><input type="checkbox"> Query performance for large datasets considered <span class="reviewer-tag">Architecture</span></li>
-                </ul>
-            </div>
-
-            <div class="checklist-category">
-                <h4>4. Testing & Quality Assurance</h4>
-                <ul class="checkbox-list">
-                    <li><input type="checkbox"> Unit tests added/updated <span class="reviewer-tag">Team Lead</span></li>
-                    <li><input type="checkbox"> Functional test cases executed <span class="reviewer-tag">Team Lead</span></li>
-                    <li><input type="checkbox"> Edge cases covered <span class="reviewer-tag">Both</span></li>
-                    <li><input type="checkbox"> Integration tests where applicable <span class="reviewer-tag">Both</span></li>
-                </ul>
-            </div>
-
-            <div class="checklist-category">
-                <h4>5. Security & Error Handling</h4>
-                <ul class="checkbox-list">
-                    <li><input type="checkbox"> Input validation implemented <span class="reviewer-tag">Team Lead</span></li>
-                    <li><input type="checkbox"> Proper error handling and logging <span class="reviewer-tag">Both</span></li>
-                    <li><input type="checkbox"> Security vulnerabilities addressed <span class="reviewer-tag">Both</span></li>
-                    <li><input type="checkbox"> Authentication/authorization checks <span class="reviewer-tag">Architecture</span></li>
-                </ul>
+            <div class="note">
+                <h4>Important Note</h4>
+                <p>Type hinting helps catch type-related errors early and improves IDE support for better development experience.</p>
             </div>
         </section>
 
-        <section class="review-section">
-            <h2>Best Practices Examples</h2>
+        <section id="database" class="section">
+            <h2>Database Best Practices</h2>
             
-            <div class="code-example">
-                <h4>Transaction Handling:</h4>
-                <pre>
-public function transferFunds(int $fromAccount, int $toAccount, float $amount): void 
+            <h3>Transaction Handling</h3>
+            <div class="best-practice">
+                <div class="code-example">
+                    <span class="code-label">Recommended Pattern</span>
+                    <pre>
+public function transferFunds(int $fromAccount, int $toAccount, float $amount): void
 {
     DB::beginTransaction();
     try {
@@ -170,36 +218,157 @@ public function transferFunds(int $fromAccount, int $toAccount, float $amount): 
         throw $e;
     }
 }</pre>
+                </div>
             </div>
 
-            <div class="code-example">
-                <h4>API Resource Structure:</h4>
-                <pre>
+            <div class="note">
+                <h4>Review Focus</h4>
+                <ul>
+                    <li>Proper transaction handling</li>
+                    <li>Error handling and rollback</li>
+                    <li>Logging of failures</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="security" class="section">
+            <h2>Security Best Practices</h2>
+            
+            <h3>Input Validation & SQL Injection Prevention</h3>
+            <div class="best-practice">
+                <div class="code-example">
+                    <span class="code-label">Secure Code</span>
+                    <pre>
+public function updateUser(Request $request): Response
 {
-    "data": {
-        "id": 1,
-        "amount": 100.00,
-        "status": "completed",
-        "metadata": null,
-        "created_at": "2024-03-20T10:00:00Z"
-    },
-    "meta": {
-        "version": "1.0"
+    $data = $request->validate([
+        'email' => 'required|email',
+        'name' => 'required|string|max:255'
+    ]);
+
+    return User::findOrFail($request->validated('user_id'))
+        ->update($data);</pre>
+                </div>
+                <p>Use proper validation and prepared statements to prevent SQL injection.</p>
+            </div>
+
+            <div class="bad-practice">
+                <div class="code-example">
+                    <span class="code-label">Vulnerable Code</span>
+                    <pre>
+$query = "UPDATE users SET email = '" . $_POST['email'] . "'
+         WHERE id = " . $_GET['id'];
+$result = mysqli_query($conn, $query);</pre>
+                </div>
+                <p>Never use direct string concatenation with user input in queries.</p>
+            </div>
+
+            <div class="note">
+                <h4>Security Checklist</h4>
+                <ul>
+                    <li>Input validation for all user inputs</li>
+                    <li>Use prepared statements or query builders</li>
+                    <li>Implement CSRF protection</li>
+                    <li>Proper authentication checks</li>
+                    <li>XSS prevention measures</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="architecture" class="section">
+            <h2>Architecture & Design Patterns</h2>
+            
+            <h3>SOLID Principles Implementation</h3>
+            <div class="best-practice">
+                <div class="code-example">
+                    <span class="code-label">Good Architecture</span>
+                    <pre>
+interface PaymentGateway {
+    public function processPayment(Payment $payment): bool;
+}
+
+class StripeGateway implements PaymentGateway {
+    public function processPayment(Payment $payment): bool {
+        // Stripe-specific implementation
+    }
+}
+
+class PaymentService {
+    private PaymentGateway $gateway;
+    
+    public function __construct(PaymentGateway $gateway) {
+        $this->gateway = $gateway;
     }
 }</pre>
+                </div>
+                <p>Follow dependency injection and interface segregation principles.</p>
+            </div>
+
+            <div class="note">
+                <h4>Architectural Considerations</h4>
+                <ul>
+                    <li>Service layer implementation</li>
+                    <li>Dependency injection usage</li>
+                    <li>Interface segregation</li>
+                    <li>Single responsibility principle</li>
+                    <li>Code modularity</li>
+                </ul>
             </div>
         </section>
 
-        <section class="review-section">
-            <h2>Important Notes</h2>
-            <ul>
-                <li>All changes must be backward compatible unless explicitly approved</li>
-                <li>Security vulnerabilities must be addressed immediately</li>
-                <li>Performance impact on production systems must be considered</li>
-                <li>Documentation must be updated with code changes</li>
-                <li>Breaking changes require migration guide</li>
-            </ul>
+        <section id="testing" class="section">
+            <h2>Testing Guidelines</h2>
+            
+            <h3>Unit Testing</h3>
+            <div class="best-practice">
+                <div class="code-example">
+                    <span class="code-label">Test Example</span>
+                    <pre>
+public function test_user_creation(): void
+{
+    $userData = [
+        'name' => 'John Doe',
+        'email' => 'john@example.com'
+    ];
+
+    $user = User::create($userData);
+
+    $this->assertDatabaseHas('users', $userData);
+    $this->assertEquals($userData['name'], $user->name);
+    $this->assertEquals($userData['email'], $user->email);
+}</pre>
+                </div>
+                <p>Write comprehensive tests covering main functionality and edge cases.</p>
+            </div>
+
+            <div class="note">
+                <h4>Testing Requirements</h4>
+                <ul>
+                    <li>Unit tests for new features</li>
+                    <li>Integration tests for complex flows</li>
+                    <li>Test edge cases and error scenarios</li>
+                    <li>Maintain test coverage standards</li>
+                    <li>Mock external dependencies</li>
+                </ul>
+            </div>
         </section>
+
+        <div class="reviewer-info">
+            <h3>Reviewer Responsibilities</h3>
+            <p><strong>Team Lead Review</strong><span class="reviewer-tag">First Level</span></p>
+            <ul>
+                <li>Code quality and standards</li>
+                <li>Type safety</li>
+                <li>Unit tests</li>
+            </ul>
+            
+            <p><strong>Architecture Team Review</strong><span class="reviewer-tag">Second Level</span></p>
+            <ul>
+                <li>Database optimization</li>
+                <li>Architectural patterns</li>
+                <li>Performance considerations</li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
