@@ -155,7 +155,6 @@
         <div class="container">
             <ul class="nav-links">
                 <li><a href="#code-quality">Code Quality</a></li>
-                <li><a href="#database">Database</a></li>
             </ul>
         </div>
     </nav>
@@ -194,38 +193,6 @@ function get_user_data($id) {
             </div>
         </section>
 
-        <section id="database" class="section">
-            <h2>Database Best Practices</h2>
-            
-            <h3>Transaction Handling</h3>
-            <div class="best-practice">
-                <div class="code-example">
-                    <span class="code-label">Recommended Pattern</span>
-                    <pre>
-public function transferFunds(int $fromAccount, int $toAccount, float $amount): void
-{
-    DB::beginTransaction();
-    try {
-        // Transfer logic
-        DB::commit();
-    } catch (Exception $e) {
-        DB::rollBack();
-        Log::error('Transfer failed: ' . $e->getMessage());
-        throw $e;
-    }
-}</pre>
-                </div>
-            </div>
-
-            <div class="note">
-                <h4>Review Focus</h4>
-                <ul>
-                    <li>Proper transaction handling</li>
-                    <li>Error handling and rollback</li>
-                    <li>Logging of failures</li>
-                </ul>
-            </div>
-        </section>
 
 
         <div class="reviewer-info">
