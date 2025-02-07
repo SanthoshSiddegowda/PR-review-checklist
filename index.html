@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Code Review Guidelines</title>
+    <title>Bizom's PHP Code Review Guidelines</title>
     <style>
         :root {
             --primary-color: #4F5B93;
@@ -146,7 +146,7 @@
 <body>
     <header>
         <div class="container">
-            <h1>PHP Code Review Guidelines</h1>
+            <h1>Bizom PHP Code Review Guidelines</h1>
             <p>Comprehensive guide for conducting effective PHP code reviews</p>
         </div>
     </header>
@@ -157,8 +157,7 @@
                 <li><a href="#code-quality">Code Quality</a></li>
                 <li><a href="#database">Database</a></li>
                 <li><a href="#security">Security</a></li>
-                <li><a href="#architecture">Architecture</a></li>
-                <li><a href="#testing">Testing</a></li>
+                <li><a href="#testing">testing</a></li>
             </ul>
         </div>
     </nav>
@@ -271,47 +270,6 @@ $result = mysqli_query($conn, $query);</pre>
                     <li>Implement CSRF protection</li>
                     <li>Proper authentication checks</li>
                     <li>XSS prevention measures</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="architecture" class="section">
-            <h2>Architecture & Design Patterns</h2>
-            
-            <h3>SOLID Principles Implementation</h3>
-            <div class="best-practice">
-                <div class="code-example">
-                    <span class="code-label">Good Architecture</span>
-                    <pre>
-interface PaymentGateway {
-    public function processPayment(Payment $payment): bool;
-}
-
-class StripeGateway implements PaymentGateway {
-    public function processPayment(Payment $payment): bool {
-        // Stripe-specific implementation
-    }
-}
-
-class PaymentService {
-    private PaymentGateway $gateway;
-    
-    public function __construct(PaymentGateway $gateway) {
-        $this->gateway = $gateway;
-    }
-}</pre>
-                </div>
-                <p>Follow dependency injection and interface segregation principles.</p>
-            </div>
-
-            <div class="note">
-                <h4>Architectural Considerations</h4>
-                <ul>
-                    <li>Service layer implementation</li>
-                    <li>Dependency injection usage</li>
-                    <li>Interface segregation</li>
-                    <li>Single responsibility principle</li>
-                    <li>Code modularity</li>
                 </ul>
             </div>
         </section>
