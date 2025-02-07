@@ -1,0 +1,117 @@
+Pull Request (PR) Review Guidelines
+
+Pull Request (PR) Review Guidelines
+First-Level Reviewer
+Users : Team Lead or Senior Developer from the same team as the PR author.
+
+Review Process : When approving a PR, add a comment with the following format to ensure that all critical aspects have been reviewed. Include the checklist items covered during the review:
+***PR Reviewed***
+
+- Point 1 reviewed.
+
+- Point 2 reviewed.
+
+...
+
+- Point 14 reviewed.
+
+
+Checklist for Review
+Type Hinting and Return Types
+Ensure all functions use appropriate type hinting and return types for better readability and debugging.
+Example:
+
+
+Constants for Magic Numbers
+Replace magic numbers with named constants to improve code maintainability.
+Example:
+$amount = round($amount, 2);  // Avoid
+$amount = round($amount, CommonUtil::DECIMAL_POINTS);  // Preferred
+
+Transaction Handling for Multiple Table Operations this will applicable for new development
+Use try/catch blocks for transaction handling when multiple tables are involved.
+For large datasets, ensure checks for deadlocks or long waits in query execution.
+Code Formatting
+Adhere to a maximum of 100–120 characters per line and 100–120 lines per function.
+Maintain proper indentation and spacing for better readability.
+Configurability and Extensibility
+If a new setting changes the behavior of an existing flow, ensure it is implemented as a trait or plugin for configurability.
+Consistent API Resource Structure
+Maintain a consistent structure for API resources.
+Even if some columns are not required, define them as null to ensure uniformity.
+Example:
+json
+CopyEdit
+"paymentInfo": { "id": 111,"amount": 222,"customFunctionalityData": null}
+Code Reusability
+Avoid using overly broad functions that fetch unnecessary data.
+Break large functions into smaller, reusable ones for modularity.
+Avoid queries inside loops; instead, prefetch data and use key-value pairs for efficient lookups.
+Migration Guidelines
+Do not rename incorrect class or file names (e.g., Cdnote.php to CDNote.php).
+Method names can be updated if camelCase conventions are not followed.
+Functional Test Cases
+Ensure all functional test cases have been executed and validated.
+Functionality Verification
+Confirm that the functionality is working as expected and should be able to find the area which has been impacted as well.
+Code Comments and Annotations
+Include meaningful comments and annotations in the code for better understanding.
+Backward Compatibility
+Validate that the code is backward-compatible with existing systems.
+UI Code Review
+Check for UI issues, such as proper button states and JavaScript validations.
+Unit Test Cases
+Ensure unit tests are reviewed and committed for all new features. (Applicable for Laravel projects.)
+PSR Standards
+Verify adherence to PSR (PHP Standards Recommendations).
+
+Second-Level Reviewer
+Users : Architecture Team (Dharshan, Shubham, Veerichetty, Arvind, and Laxmikanth).
+
+Review Process : When approving a PR, add a comment with the following format to ensure all aspects have been reviewed:
+***PR Reviewed***
+
+- Point 1 reviewed.
+
+- Point 2 reviewed.
+
+...
+
+- Point 9 reviewed.
+
+
+Checklist for Review
+Transaction Handling for Multiple Table Operations
+Ensure proper transaction handling and checks for deadlocks in large dataset operations.
+Query Review
+Use indexes for all queries, and check performance using the EXPLAIN keyword.
+Avoid duplicate indexes; ensure foreign and unique keys are created where necessary.
+Construct role-based queries for optimized performance.
+Example:
+Admin: Fetch all active entries.
+Zone Manager: Fetch entries under specific areas.
+Migration Guidelines
+Follow naming conventions.
+Do not rename classes or files incorrectly.
+Update method names if camelCase is not adhered to.
+Recursive Issues in CakePHP
+Add recursive = -1 in queries to avoid unnecessary data fetching in associations.
+Example:
+findById(1, ['name'], null, -1);
+Architectural Flow and Backward Compatibility
+Ensure all changes align with Bizom standards.
+Validate database table structures and core module compatibility.
+MySQL Query Guidelines
+Avoid queries in loops.
+Limit the use of IN queries where possible.
+Test complex queries on large databases and include explanations in comments.
+Revision Queries
+Ensure queries are re-runnable and handle updates gracefully.
+PSR Standards
+Verify adherence to PSR (PHP Standards Recommendations).
+Unit Test Cases
+Ensure unit tests are reviewed and committed for all new features. (Applicable for Laravel projects.)
+
+These guidelines aim to ensure comprehensive code reviews, maintain coding standards, and prevent potential issues in production systems.
+
+
