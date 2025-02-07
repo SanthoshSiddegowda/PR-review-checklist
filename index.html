@@ -154,6 +154,7 @@
     <nav>
         <div class="container">
             <ul class="nav-links">
+                <li><a href="#code-quality">Code Quality</a></li>
                 <li><a href="#database">Database</a></li>
                 <li><a href="#security">Security</a></li>
                 <li><a href="#architecture">Architecture</a></li>
@@ -163,7 +164,39 @@
     </nav>
 
     <div class="container">
-      
+        <section id="code-quality" class="section">
+            <h2>Code Quality Standards</h2>
+            <p>Essential guidelines for maintaining high-quality PHP code.</p>
+
+            <h3>Type Hinting and Return Types</h3>
+            <div class="best-practice">
+                <div class="code-example">
+                    <span class="code-label">Good Practice</span>
+                    <pre>
+public function getUserData(int $userId): ?User
+{
+    return $this->userRepository->findById($userId);
+}</pre>
+                </div>
+                <p>Always use type hints and return types for better code clarity and maintainability.</p>
+            </div>
+
+            <div class="bad-practice">
+                <div class="code-example">
+                    <span class="code-label">Avoid</span>
+                    <pre>
+function get_user_data($id) {
+    return $this->user_repository->find_by_id($id);
+}</pre>
+                </div>
+                <p>Avoid omitting type hints and return types as it makes code harder to understand and maintain.</p>
+            </div>
+
+            <div class="note">
+                <h4>Important Note</h4>
+                <p>Type hinting helps catch type-related errors early and improves IDE support for better development experience.</p>
+            </div>
+        </section>
 
         <section id="database" class="section">
             <h2>Database Best Practices</h2>
