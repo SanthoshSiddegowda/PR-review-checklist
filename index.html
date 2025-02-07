@@ -156,8 +156,6 @@
             <ul class="nav-links">
                 <li><a href="#code-quality">Code Quality</a></li>
                 <li><a href="#database">Database</a></li>
-                <li><a href="#security">Security</a></li>
-                <li><a href="#testing">testing</a></li>
             </ul>
         </div>
     </nav>
@@ -195,7 +193,7 @@ function get_user_data($id) {
                 <p>Type hinting helps catch type-related errors early and improves IDE support for better development experience.</p>
             </div>
         </section>
-        
+
         <section id="database" class="section">
             <h2>Database Best Practices</h2>
             
@@ -229,86 +227,6 @@ public function transferFunds(int $fromAccount, int $toAccount, float $amount): 
             </div>
         </section>
 
-        <section id="security" class="section">
-            <h2>Security Best Practices</h2>
-            
-            <h3>Input Validation & SQL Injection Prevention</h3>
-            <div class="best-practice">
-                <div class="code-example">
-                    <span class="code-label">Secure Code</span>
-                    <pre>
-public function updateUser(Request $request): Response
-{
-    $data = $request->validate([
-        'email' => 'required|email',
-        'name' => 'required|string|max:255'
-    ]);
-
-    return User::findOrFail($request->validated('user_id'))
-        ->update($data);</pre>
-                </div>
-                <p>Use proper validation and prepared statements to prevent SQL injection.</p>
-            </div>
-
-            <div class="bad-practice">
-                <div class="code-example">
-                    <span class="code-label">Vulnerable Code</span>
-                    <pre>
-$query = "UPDATE users SET email = '" . $_POST['email'] . "'
-         WHERE id = " . $_GET['id'];
-$result = mysqli_query($conn, $query);</pre>
-                </div>
-                <p>Never use direct string concatenation with user input in queries.</p>
-            </div>
-
-            <div class="note">
-                <h4>Security Checklist</h4>
-                <ul>
-                    <li>Input validation for all user inputs</li>
-                    <li>Use prepared statements or query builders</li>
-                    <li>Implement CSRF protection</li>
-                    <li>Proper authentication checks</li>
-                    <li>XSS prevention measures</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="testing" class="section">
-            <h2>Testing Guidelines</h2>
-            
-            <h3>Unit Testing</h3>
-            <div class="best-practice">
-                <div class="code-example">
-                    <span class="code-label">Test Example</span>
-                    <pre>
-public function test_user_creation(): void
-{
-    $userData = [
-        'name' => 'John Doe',
-        'email' => 'john@example.com'
-    ];
-
-    $user = User::create($userData);
-
-    $this->assertDatabaseHas('users', $userData);
-    $this->assertEquals($userData['name'], $user->name);
-    $this->assertEquals($userData['email'], $user->email);
-}</pre>
-                </div>
-                <p>Write comprehensive tests covering main functionality and edge cases.</p>
-            </div>
-
-            <div class="note">
-                <h4>Testing Requirements</h4>
-                <ul>
-                    <li>Unit tests for new features</li>
-                    <li>Integration tests for complex flows</li>
-                    <li>Test edge cases and error scenarios</li>
-                    <li>Maintain test coverage standards</li>
-                    <li>Mock external dependencies</li>
-                </ul>
-            </div>
-        </section>
 
         <div class="reviewer-info">
             <h3>Reviewer Responsibilities</h3>
